@@ -16,7 +16,7 @@ RUN apt-get update && \
       python-all \
       rlwrap && \
       curl -sL \$NODE_URI | bash - && \
-      apt-get install nodejs  && \
+      apt-get install -y --force-yes --no-install-recommends nodejs  && \
       rm -rf /var/lib/apt/lists/*;
 RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR teamcity
 RUN echo "teamcity ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
