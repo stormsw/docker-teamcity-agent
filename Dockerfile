@@ -15,7 +15,7 @@ RUN apt-get update && \
       lsb-release \
       python-all \
       rlwrap && \
-      curl -sL \$NODE_URI | bash - && \
+      curl -sL $NODE_URI | bash - && \
       apt-get install -y --force-yes --no-install-recommends nodejs  && \
       rm -rf /var/lib/apt/lists/*;
 RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR teamcity
