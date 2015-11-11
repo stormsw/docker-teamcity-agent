@@ -14,6 +14,7 @@ RUN apt-get update && \
       git \
       lsb-release \
       python-all \
+      libkrb5-dev \
       rlwrap && \
       curl -sL $NODE_URI | bash - && \
       apt-get install -y --force-yes --no-install-recommends nodejs  && \
@@ -22,10 +23,11 @@ RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR te
 RUN echo "teamcity ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER teamcity
 # nodejs build chain
+ENV PATH  ~/npm-global/bin:$PATH
 RUN	mkdir ~/npm-global &&\
 	npm config set prefix '~/npm-global' &&\
-	cat export PATH=~/npm-global/bin:$PATH>>~/.profile &&\
-	source ~/.profile && \
+#	cat export PATH=~/npm-global/bin:$PATH>>~/.profile &&\
+#	source ~/.profile && \
         npm install npm -g &&\
         npm install -g node-gyp &&\
         npm install -g bower &&\
@@ -40,7 +42,7 @@ RUN echo "name=" >> $AGENT_DIR/conf/buildAgent.properties
 RUN echo "workDir=../work" >> $AGENT_DIR/conf/buildAgent.properties
 RUN echo "tempDir=../temp" >> $AGENT_DIR/conf/buildAgent.properties
 RUN echo "systemDir=../system" >> $AGENT_DIR/conf/buildAgent.properties
-RUN chown teamcity:teamcity -R $AGENT_DIR
+RUN sudo chown teamcity:teamcity -R $AGENT_DIR
 EXPOSE 9090
 #USER teamcity
 CMD sudo -u teamcity -s -- sh -c "TEAMCITY_SERVER=$TEAMCITY_SERVER bin/agent.sh run"
