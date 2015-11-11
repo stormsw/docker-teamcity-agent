@@ -20,8 +20,13 @@ RUN apt-get update && \
       rm -rf /var/lib/apt/lists/*;
 RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR teamcity
 RUN echo "teamcity ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+USER teamcity
 # nodejs build chain
-RUN     npm install npm -g &&\
+RUN	mkdir ~/npm-global &&\
+	npm config set prefix '~/npm-global' &&\
+	cat export PATH=~/npm-global/bin:$PATH>>~/.profile &&\
+	source ~/.profile && \
+        npm install npm -g &&\
         npm install -g node-gyp &&\
         npm install -g bower &&\
         npm install -g grunt-cli
