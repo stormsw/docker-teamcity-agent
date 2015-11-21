@@ -45,4 +45,8 @@ RUN echo "systemDir=../system" >> $AGENT_DIR/conf/buildAgent.properties
 RUN sudo chown teamcity:teamcity -R $AGENT_DIR
 EXPOSE 9090
 #USER teamcity
+# add docker client there (TODO: remove server parts)
+RUN curl -sSL https://get.docker.com/ | sh
+ENV DOCKER_HOST=tcp://172.17.0.1:2375
+RUN usermod -aG docker teamcity
 CMD sudo -u teamcity -s -- sh -c "TEAMCITY_SERVER=$TEAMCITY_SERVER bin/agent.sh run"
