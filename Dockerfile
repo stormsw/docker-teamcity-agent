@@ -3,6 +3,7 @@ MAINTAINER Alexander Varchenko <alexander.varchenko@gmail.com>
 ENV AGENT_DIR="/opt/teamcity/agent"
 ENV TEAMCITY_SERVER=http://localhost:8888
 RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR teamcity
+RUN echo "teamcity ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR $AGENT_DIR
 RUN wget $TEAMCITY_SERVER/update/buildAgent.zip &&\
     unzip -q -d $AGENT_DIR buildAgent.zip && \
