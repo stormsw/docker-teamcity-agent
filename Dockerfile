@@ -1,7 +1,7 @@
 FROM stormsw/ubuntu-java
 MAINTAINER Alexander Varchenko <alexander.varchenko@gmail.com>
 ENV AGENT_DIR="/opt/teamcity/agent"
-ENV AGENT_ID=tca3.1
+ENV AGENT_ID=tca3.2
 ENV TEAMCITY_SERVER=http://172.17.0.1:8888/cis
 RUN adduser --disabled-password --gecos '' --disabled-login --home $AGENT_DIR teamcity
 RUN echo "teamcity ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
